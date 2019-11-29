@@ -1,0 +1,1 @@
+web: gunicorn pur-beurre.wsgi

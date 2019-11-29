@@ -1,0 +1,72 @@
+<style type="text/css">
+	#form_connect{
+		text-align: left;
+		position: relative;
+	   	left: 130px;
+	}
+
+	#field{
+		display: flex;
+		margin-top: 5%;	
+	}
+
+	#error{
+		display: table-column;
+	}
+	h2{
+		color: #c45525;
+	}
+	@media screen and (max-width: 1280px)
+	{
+		#field{
+			flex-direction: column;
+    		justify-content: space-between;
+		}
+
+		#form_connect{
+		   	left: 30px;
+		}
+	}  
+</style>
+
+{% extends "base.html" %}
+{% block content %}
+	<header class="masthead">
+	    <div class="container h-100">
+	        <div class="row h-100 align-items-center justify-content-center text-center">
+	            <div class="col-lg-10">
+	                <h1 class="text-uppercase text-white font-weight-bold">Me connecter</h1>
+	            </div>
+
+				{% if error %}
+				<div id="error">
+					<div><p><strong>Utilisateur inconnu ou mauvais de mot de passe.</strong></p></div>
+				</div>
+				{% endif %}
+
+				<form action="{% url 'connexion' %}" method="post" id="form_connect">
+				    {% csrf_token %}
+				    {{ form.non_field_errors }}
+				    <div class="col-lg-10" id="field">
+						<div class="fieldWrapper col-lg-5">
+						    {{ form.username.errors }}
+						    <p><label for="{{ form.username.id_for_label }}">Nom d'utilisateur</label>
+						    {{ form.username }}</p>
+						</div>
+						<div class="fieldWrapper col-lg-5">
+						    {{ form.password.errors }}
+						    <p><label for="{{ form.password.id_for_label }}">Mot de passe:</label>
+						    {{ form.password }}</p>
+						</div>
+					</div>
+					<div class="col-lg-10" id="field">
+						<div class="fieldWrapper col-lg-5">
+				    		<a href="mon-compte"><input type="submit" value="Se connecter" id="submit" class="btn btn-primary btn-search"/></a>
+				    	</div>
+				    </div>
+				</form>	
+				<h3 class="col-lg-10"><strong><a href="creer-compte">Ou créer mon compte</a></strong></h3>
+		    </div>
+	    </div>
+	</header>
+{% endblock %}

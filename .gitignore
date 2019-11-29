@@ -1,0 +1,11 @@
+db.sqlite3
+logfile
+venv/
+website/__pycache__/forms.cpython-37.pyc
+website/migrations/__pycache__
+website/constants.txt
+.pytest_cache
+pur_beurre/__pycache__
+website/__pycache__
+website/scripts/request_openfoodfact
+website/constants.py
