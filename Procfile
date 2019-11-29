@@ -1,1 +1,1 @@
-web: gunicorn pur-beurre.wsgi
+web: gunicorn pur_beurre.wsgi
