@@ -41,7 +41,6 @@
   footer a{
     color: #345a61;
   }
-
   #help a{
     color: transparent;
     position: absolute;
@@ -55,18 +54,22 @@
 
   @media screen and (max-width: 1280px)
   {
-    #navbarElt img{
-      visibility: hidden;
+    #mainNav{
+      display: flex
+    }
+    .nav-item
+    {
+      display: flex;
     }
     #help a{
       color: #000;
+      margin-top: 5%;
+      margin-left: 5%;
     }
     footer .container div{
       flex-direction: column;
     }
-    #mainNav{
-      display: flex
-    }
+
     footer{
       position: relative;
       top: 0%;
@@ -100,15 +103,15 @@
             </form>
           </li>
           <li class="nav-item" class="col-sm-12 col-md-2">
-            <a class="nav-link js-scroll-trigger" href="/mon-compte"><img src="../static/img/account.png" alt="Mon compte" style="height:30px"></a>
+            <a class="nav-link js-scroll-trigger" href="/mon-compte"><i class="far fa-user fa-2x"></i></a>
             <p id="help"><a href="/mon-compte">Mon compte</a></p>
           </li>
           <li class="nav-item" class="col-sm-12 col-md-2">
-            <a class="nav-link js-scroll-trigger" href="/mes-aliments"><img src="../static/img/carrot_final.png" alt="Mes aliments" style="height:30px"></a>
+            <a class="nav-link js-scroll-trigger" href="/mes-aliments"><i class="fas fa-carrot fa-2x"></i></a>
             <p id="help"><a href="/mes-aliments">Mes aliments</a></p>
           </li>
           <li class="nav-item" class="col-sm-12 col-md-2">
-            <a class="nav-link js-scroll-trigger" href="/deconnexion"><img src="../static/img/log_out.png" alt="Deconnexion" style="height:30px"></a>
+            <a class="nav-link js-scroll-trigger" href="/deconnexion"><i class="fas fa-sign-out-alt fa-2x"></i></a>
             <p id="help"><a href="/deconnexion">Deconnexion</a></p>
           </li>
         </ul>

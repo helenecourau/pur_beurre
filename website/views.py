@@ -12,7 +12,7 @@ from django.views.generic import TemplateView, ListView
 from .forms import AccountForm, ConnexionForm, SaveForm
 from website.models import Category, Product
 
-from website.scripts.request_openfoodfact import main as m
+from website.scripts import main as m
 
 def result(request):
     query = request.GET.get('query')

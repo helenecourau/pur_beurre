@@ -75,8 +75,6 @@
 								<p><a href="{% url 'product_page' id=product.id slug=product.slug %}">Lire la suite</a></p>
 							</div>
 							{% if forloop.counter|divisibleby:3 %}<div class="clearfix"></div>{% endif %}
-							{% empty %}
-								<p>Aucun produit.</p>
 						{% endfor %}
 					</div>
 
