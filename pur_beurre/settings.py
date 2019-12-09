@@ -25,7 +25,10 @@ SECRET_KEY = 'c1)9aw^3)(ca)9jv%)nd@6$05#1&duj!u+3a#a&kl!v&%dg)-o'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = False
+if os.environ.get('ENV') == 'PRODUCTION':
+    DEBUG = False
+else:
+    DEBUG = True
 
 ALLOWED_HOSTS = ['pur-beurre-heleneco.herokuapp.com', 'localhost']
 

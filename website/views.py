@@ -1,5 +1,3 @@
-import random
-
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
@@ -20,8 +18,7 @@ def result(request):
     if not products:
         messages.add_message(request, messages.WARNING, "Le produit demandé n'est pas dans notre base de données. Veuillez recommencer votre recherche.")
     else:
-        number = random.randint(0, len(products)-1)
-        choice = products[number]
+        choice = products[0]
         dico = choice.categories.all()
         substitutes_list = Product.objects.filter(categories__name_cat__exact=dico[0], grade__in='ab').order_by('name_prod')
         if not substitutes_list:

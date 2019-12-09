@@ -1,7 +1,11 @@
 <style type="text/css">
 	
+	h3{
+		color: #fff;
+	}
+
 	#container{
-		margin-top: 7%;
+		margin-top: 6%;
 		min-height:500px;
 	}
 	#product_line{
@@ -61,7 +65,7 @@
 	                <h1 class="text-uppercase text-white font-weight-bold">Mes produits de substitution</h1>
 	                {% if user.is_authenticated %}
 	                {% else %}
-	                <h3><a href="connexion">Connectez-vous</a> pour sauvegarder vos produits préférés!</h3>
+	                <h3><a href="/connexion">Connectez-vous</a> pour sauvegarder vos produits préférés!</h3>
 	                {% endif %}
 	                {% if messages %}
 						<ul class="messages">

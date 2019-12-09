@@ -16,8 +16,7 @@ class Request:
 
     def request(self):
         '''Requests and parses data from the OpenFoodFact API'''
-        object_json = requests.get(self.url)
-        object_json = object_json.json()
+        object_json = requests.get(self.url).json()
         list_clean = object_json['products']
         # the object json from the API
         # has a lot of data and we only need the data from product
@@ -41,7 +40,7 @@ class Request:
                 if info_product["name"] not in self.duplicate_entries:
                     self.duplicate_entries.append(info_product["name"])
                     self.foods.append(info_product)
-        return self.duplicate_entries, self.foods
+        return self.foods
 
     def split_category(self):
         '''Splits the store string in list values and maintains

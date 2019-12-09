@@ -66,12 +66,6 @@ class ProductPageTestCase(TestCase):
         response = self.client.get(reverse('product_page', args=(product_id, product_slug,)))
         self.assertEqual(response.status_code, 200)
 
-    def test_detail_page_returns_404(self):
-        product_id = Product.objects.get(name_prod='chocolat').id + 1
-        product_slug = Product.objects.get(name_prod='chocolat').slug
-        response = self.client.get(reverse('product_page', args=(product_id, product_slug,)))
-        self.assertEqual(response.status_code, 404)
-
 
 class ConnectPageTestCase(TestCase):
     def setUp(self):
