@@ -1,7 +1,7 @@
 import random
 
 from django.http import HttpResponse
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_list_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
@@ -70,7 +70,7 @@ def search(request, page=1):
     return render(request, 'website/search.html', locals())
 
 def product_page(request, id, slug):
-    product = get_object_or_404(Product, id=id, slug=slug)
+    product = get_list_or_404(Product, id=id, slug=slug)
     return render(request, 'website/product_page.html', {'product':product})
 
 def account_create(request):
