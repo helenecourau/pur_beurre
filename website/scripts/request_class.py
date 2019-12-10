@@ -53,7 +53,8 @@ class Request:
                 value_category = value_category.split(',')
             for i, final_value in enumerate(value_category):
                 categories = {"name": final_value.capitalize()}
-                unique_category = {final_value.capitalize(): first_value["name"]}
+                unique_category = {final_value.capitalize():
+                                   first_value["name"]}
                 self.unique_category.append(unique_category)  # this list
                 # is used to create the lists for the intermediate tables
                 if categories["name"] not in duplicate_entries:

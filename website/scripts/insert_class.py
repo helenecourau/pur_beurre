@@ -8,7 +8,7 @@ class Insert:
     def insert_categories(self, category_list):
         for dico in category_list:
             try:
-                obj = Category.objects.get(name_cat=dico["name"])
+                Category.objects.get(name_cat=dico["name"])
             except Category.DoesNotExist:
                 category = Category(name_cat=dico["name"])
                 category.save()
@@ -16,13 +16,13 @@ class Insert:
     def insert_product(self, foods):
         for dico in foods:
             try:
-                obj = Product.objects.get(name_prod=dico["name"])
+                Product.objects.get(name_prod=dico["name"])
             except Product.DoesNotExist:
                 """slug = dico["name"].replace(" ", "-").lower()"""
-                product = Product(name_prod=dico["name"], 
-                                  description=dico["description"], 
-                                  grade=dico["grade"], 
-                                  url=dico["url"], 
+                product = Product(name_prod=dico["name"],
+                                  description=dico["description"],
+                                  grade=dico["grade"],
+                                  url=dico["url"],
                                   url_img=dico["url_img"],
                                   slug=slugify(dico["name"]))
                 product.save()

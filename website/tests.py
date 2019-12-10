@@ -1,8 +1,7 @@
 from django.test import TestCase, Client
 from django.urls import reverse
 from django.contrib.auth.models import User
-from website.models import Category, Product
-import website.constants as co
+from website.models import Product
 
 
 class HomePageTestCase(TestCase):
@@ -13,11 +12,14 @@ class HomePageTestCase(TestCase):
 
 class MyProductsPageTestCase(TestCase):
     def setUp(self):
-        User.objects.create_user('helene', 'helene@test.com', 'helenecouraupwd')
+        User.objects.create_user('helene',
+                                 'helene@test.com', 'helenecouraupwd')
 
     def test_favorite_page_returns_200_if_connected(self):
         c = Client()
-        response = c.post('/connexion', {'username': 'helene', 'password': 'helenecouraupwd'})
+        response = c.post('/connexion',
+                          {'username': 'helene',
+                           'password': 'helenecouraupwd'})
         response = c.get('/mes-aliments/')
         self.assertEqual(response.status_code, 200)
 
@@ -53,24 +55,26 @@ class SearchPageTestCase(TestCase):
 
 class ProductPageTestCase(TestCase):
     def setUp(self):
-        Product.objects.create(name_prod="chocolat", 
-                                  description="du très bon chocolat", 
-                                  grade="A", 
-                                  url="https://url.com/", 
-                                  url_img="https://url_img.com/",
-                                  slug="chocolat-21")
+        Product.objects.create(name_prod="chocolat",
+                               description="du très bon chocolat",
+                               grade="A",
+                               url="https://url.com/",
+                               url_img="https://url_img.com/",
+                               slug="chocolat-21")
 
     def test_detail_page_returns_200(self):
         product_id = Product.objects.get(name_prod='chocolat').id
         product_slug = Product.objects.get(name_prod='chocolat').slug
-        response = self.client.get(reverse('product_page', args=(product_id, product_slug,)))
+        response = self.client.get(reverse('product_page',
+                                           args=(product_id, product_slug,)))
         self.assertEqual(response.status_code, 200)
 
 
 class ConnectPageTestCase(TestCase):
     def setUp(self):
         User.objects.all().delete()
-        User.objects.create_user('helene', 'helene@test.com', 'helenecouraupwd')
+        User.objects.create_user('helene',
+                                 'helene@test.com', 'helenecouraupwd')
 
     def test_displays_connect_page(self):
         response = self.client.get(reverse('connexion'))
@@ -78,30 +82,40 @@ class ConnectPageTestCase(TestCase):
 
     def test_connect_page_redirects_after_connexion(self):
         c = Client()
-        response = c.post('/connexion', {'username': 'helene', 'password': 'helenecouraupwd'})
+        response = c.post('/connexion',
+                          {'username': 'helene',
+                           'password': 'helenecouraupwd'})
         response = c.get('/mon-compte', follow=True)
         self.assertEqual(response.status_code, 200)
 
     def test_connect_page_returns_302_if_connected(self):
         c = Client()
-        response = c.post('/connexion', {'username': 'helene', 'password': 'helenecouraupwd'})
-        self.assertEqual(response.status_code, 302)    
+        response = c.post('/connexion',
+                          {'username': 'helene',
+                           'password': 'helenecouraupwd'})
+        self.assertEqual(response.status_code, 302)
 
     def test_connect_page_returns_200_if_not_valid_username(self):
         c = Client()
-        response = c.post('/connexion', {'username': 'helene2', 'password': 'helenecouraupwd'})
+        response = c.post('/connexion',
+                          {'username': 'helene2',
+                           'password': 'helenecouraupwd'})
         self.assertEqual(response.status_code, 200)
 
     def test_connect_page_returns_200_if_not_valid_password(self):
         c = Client()
-        response = c.post('/connexion', {'username': 'helene', 'password': 'helenecouraupwd2'})
+        response = c.post('/connexion',
+                          {'username': 'helene',
+                           'password': 'helenecouraupwd2'})
         self.assertEqual(response.status_code, 200)
 
 
 class CreateAccountPageTestCase(TestCase):
     def setUp(self):
         User.objects.all().delete()
-        User.objects.create_user('helene', 'helene@test.com', 'helenecouraupwd')
+        User.objects.create_user('helene',
+                                 'helene@test.com',
+                                 'helenecouraupwd')
 
     def test_register_page(self):
         c = Client()
@@ -110,25 +124,36 @@ class CreateAccountPageTestCase(TestCase):
 
     def test_register_page_returns_302_if_connected(self):
         c = Client()
-        response = c.post('/connexion', {'username': 'helene', 'password': 'helenecouraupwd'})
-        self.assertEqual(response.status_code, 302)    
+        response = c.post('/connexion',
+                          {'username': 'helene',
+                           'password': 'helenecouraupwd'})
+        self.assertEqual(response.status_code, 302)
 
     def test_register_page_returns_200_if_not_valid_mail(self):
         c = Client()
-        response = c.post('/creer-compte', {'first_name': 'helene', 'last_name' : 'courau', 
-                                            'username': 'helene', 'mail': 'courau', 'password': 'helenecouraupwd'})
+        response = c.post('/creer-compte', {'first_name': 'helene',
+                                            'last_name': 'courau',
+                                            'username': 'helene',
+                                            'mail': 'courau',
+                                            'password': 'helenecouraupwd'})
         self.assertEqual(response.status_code, 200)
 
     def test_register_page_returns_200_if_user_already_exists(self):
         c = Client()
-        response = c.post('/creer-compte', {'first_name': 'helene', 'last_name' : 'courau', 
-                                            'username': 'helene', 'mail': 'helene@test.com', 'password': 'helenecouraupwd'})
+        response = c.post('/creer-compte', {'first_name': 'helene',
+                                            'last_name': 'courau',
+                                            'username': 'helene',
+                                            'mail': 'helene@test.com',
+                                            'password': 'helenecouraupwd'})
         self.assertEqual(response.status_code, 200)
 
     def test_register_success_create_new_user_in_db(self):
         c = Client()
-        response = c.post('/creer-compte', {'first_name': 'helene', 'last_name' : 'courau', 
-                                  'username': 'helene2', 'mail': 'helene@test.com', 'password': 'helenecouraupwd'})
+        c.post('/creer-compte', {'first_name': 'helene',
+                                 'last_name': 'courau',
+                                 'username': 'helene2',
+                                 'mail': 'helene@test.com',
+                                 'password': 'helenecouraupwd'})
         user = User.objects.get(username="helene2")
         self.assertEqual(user.username, "helene2")
 
@@ -136,15 +161,18 @@ class CreateAccountPageTestCase(TestCase):
 class AccountPageTestCase(TestCase):
     def setUp(self):
         User.objects.all().delete()
-        User.objects.create_user('helene', 'helene@test.com', 'helenecouraupwd')
+        User.objects.create_user('helene',
+                                 'helene@test.com',
+                                 'helenecouraupwd')
 
     def test_account_page_if_connected(self):
         c = Client()
-        response = c.post('/connexion', {'username': 'helene', 'password': 'helenecouraupwd'})
+        response = c.post('/connexion',
+                          {'username': 'helene',
+                           'password': 'helenecouraupwd'})
         response = c.get('/mon-compte')
         self.assertEqual(response.status_code, 200)
 
     def test_account_page_if_not_connected(self):
         response = self.client.get(reverse('account'))
         self.assertEqual(response.status_code, 302)
-
