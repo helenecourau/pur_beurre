@@ -8,8 +8,6 @@ from django.contrib import messages
 from .forms import AccountForm, ConnexionForm, SaveForm
 from website.models import Product
 
-from website.scripts import main as m
-
 
 def result(request):
     query = request.GET.get('query')
@@ -136,12 +134,5 @@ def deconnexion(request):
 def account(request):
     if not request.user.is_authenticated:
         return redirect('connexion')
-    if request.method == 'POST':
-        MAIN = m.Main()
-        MAIN.request("pates-a-tartiner")
-        MAIN.request("soda")
-        MAIN.request("viande")
-        MAIN.request("yaourt")
-        MAIN.request("chocolat")
 
     return render(request, 'website/account.html', locals())

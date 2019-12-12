@@ -32,15 +32,6 @@
 					<h3><strong><a href="creer-compte">ou créez votre compte !</a></strong></h3>
 				</div>
 				{% endif %}
-				{% if user.is_superuser %}
-				<div class="col-lg-10">
-					<form action="{% url 'account' %}" method="post">
-						{% csrf_token %}
-						<input id="more_products" type="hidden" name="more_products"">
-					  	<input type="submit" value="Ajouter des produits" id="submit" />
-					</form>
-				</div>
-				{% endif %}
 	        </div>
 	    </div>
 	  </header>

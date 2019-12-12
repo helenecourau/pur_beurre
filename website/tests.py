@@ -24,7 +24,7 @@ class ResultPageTestCase(TestCase):
 
 
 class SearchPageTestCase(TestCase):
-    
+
     def test_search_page(self):
         c = Client()
         response = c.get('/recherche/', {'query': 'coca'})
