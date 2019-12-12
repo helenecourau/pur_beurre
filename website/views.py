@@ -138,10 +138,10 @@ def account(request):
         return redirect('connexion')
     if request.method == 'POST':
         MAIN = m.Main()
+        MAIN.request("pates-a-tartiner")
         MAIN.request("soda")
         MAIN.request("viande")
         MAIN.request("yaourt")
-        MAIN.request("pates-a-tartiner")
         MAIN.request("chocolat")
 
     return render(request, 'website/account.html', locals())
