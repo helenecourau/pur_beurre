@@ -138,9 +138,9 @@ def account(request):
         return redirect('connexion')
     if request.method == 'POST':
         MAIN = m.Main()
+        MAIN.request("soda")
         MAIN.request("viande")
         MAIN.request("yaourt")
-        MAIN.request("soda")
         MAIN.request("pates-a-tartiner")
         MAIN.request("chocolat")
 

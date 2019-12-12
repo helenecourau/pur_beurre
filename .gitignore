@@ -10,3 +10,5 @@ website/__pycache__
 website/scripts/request_openfoodfact/__pycache__
 website/constants.py
 website/scripts/__pycache__/
+.coverage
+cover/

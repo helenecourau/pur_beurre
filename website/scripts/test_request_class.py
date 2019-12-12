@@ -66,7 +66,7 @@ given_value = [{'name': 'Coca-cola',
                         'category': 'Sodas,Coca'}]
 
 
-def test_return_data():
+def test_split():
     wanted_value = ([{'name': 'Sodas'}, {'name': 'Coca'}],
                     [{'Sodas': 'Coca-cola'}, {'Coca': 'Coca-cola'}])
     food = script.Request('self.url')
@@ -77,7 +77,7 @@ def test_return_data():
 data_food_error = []
 
 
-def test_return_data_error():
+def test_split_error():
     wanted_value = ([], [])
     food = script.Request('self.url')
     food.foods = data_food_error

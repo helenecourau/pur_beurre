@@ -1,12 +1,38 @@
 from django.test import TestCase, Client
 from django.urls import reverse
 from django.contrib.auth.models import User
-from website.models import Product
+from website.models import Category, Product
 
 
 class HomePageTestCase(TestCase):
     def test_home_page(self):
         response = self.client.get(reverse('home'))
+        self.assertEqual(response.status_code, 200)
+
+
+class ResultPageTestCase(TestCase):
+
+    def test_result_page(self):
+        c = Client()
+        response = c.get('/resultats/', {'query': 'coca'})
+        self.assertEqual(response.status_code, 200)
+
+    def test_result_page_error(self):
+        c = Client()
+        response = c.get('/resultats/', {'query': 'haribo'})
+        self.assertEqual(response.status_code, 200)
+
+
+class SearchPageTestCase(TestCase):
+    
+    def test_search_page(self):
+        c = Client()
+        response = c.get('/recherche/', {'query': 'coca'})
+        self.assertEqual(response.status_code, 200)
+
+    def test_result_page_error(self):
+        c = Client()
+        response = c.get('/recherche/', {'query': 'haribo'})
         self.assertEqual(response.status_code, 200)
 
 
@@ -27,30 +53,6 @@ class MyProductsPageTestCase(TestCase):
         c = Client()
         response = c.get('/mes-aliments/')
         self.assertEqual(response.status_code, 302)
-
-
-class ResultPageTestCase(TestCase):
-    def test_result_page(self):
-        c = Client()
-        response = c.get('/resultats/', {'query': 'coca'})
-        self.assertEqual(response.status_code, 200)
-
-    def test_result_page_error(self):
-        c = Client()
-        response = c.get('/resultats/', {'query': 'haribo'})
-        self.assertEqual(response.status_code, 200)
-
-
-class SearchPageTestCase(TestCase):
-    def test_search_page(self):
-        c = Client()
-        response = c.get('/recherche/', {'query': 'coca'})
-        self.assertEqual(response.status_code, 200)
-
-    def test_result_page_error(self):
-        c = Client()
-        response = c.get('/recherche/', {'query': 'haribo'})
-        self.assertEqual(response.status_code, 200)
 
 
 class ProductPageTestCase(TestCase):
@@ -117,7 +119,7 @@ class CreateAccountPageTestCase(TestCase):
                                  'helene@test.com',
                                  'helenecouraupwd')
 
-    def test_register_page(self):
+    def test_display_register_page(self):
         c = Client()
         response = c.get('/creer-compte')
         self.assertEqual(response.status_code, 200)
