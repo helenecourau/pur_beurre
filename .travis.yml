@@ -4,6 +4,9 @@ python:
   - "3.8"
 install:
   - pip install -r requirements.txt
+branches:
+  only:
+    - master
 env:
   - DJANGO_VERSION=2.0
 services:
