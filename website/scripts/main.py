@@ -12,3 +12,10 @@ class Main:
         INSERT.insert_categories(REQUEST.category)
         INSERT.insert_product(REQUEST.foods)
         INSERT.insert_cat_prod(REQUEST.unique_category)
+
+MAIN = Main()
+MAIN.request("pates-a-tartiner")
+MAIN.request("soda")
+MAIN.request("viande")
+MAIN.request("yaourt")
+MAIN.request("chocolat")

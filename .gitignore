@@ -12,3 +12,4 @@ website/constants.py
 website/scripts/__pycache__/
 .coverage
 cover/
+pur_beurre/settings/production.py
