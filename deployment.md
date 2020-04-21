@@ -10,7 +10,7 @@ Création d'un droplet :
 
 Création d'un nouvel utilisateur helene: 
 
-adduser helene
+    adduser helene
 
 
 Utilisateur ajouté dans le groupe des super utilisateurs:
