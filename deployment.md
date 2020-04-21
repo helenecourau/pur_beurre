@@ -10,22 +10,25 @@ Création d'un droplet :
 
 Création d'un nouvel utilisateur helene: 
 adduser helene
-Utilisateur ajouté dans le groupe des super utilisateurs
+
+Utilisateur ajouté dans le groupe des super utilisateurs:
 gpasswd -a helene sudo
-Ajout de la clé ssh
+
+Ajout de la clé ssh pour le user helene:
 su – helene
 mkdir .ssh
 chmod 700 .ssh
 nano .ssh/authorized_keys
 chmod 600 .ssh/authorized_keys
 logout
-Désactivation de la connexion ssh au root
+
+Désactivation de la connexion ssh au root:
 nano /etc/ssh/sshd_config
-Dans le fichier on change : PermitRootLogin no
-on relance :
+Dans le fichier on passe la variable PermitRootLogin à no
+on relance:
 service ssh reload
 
-Téléchargement de l'application sur le serveur
+## Téléchargement de l'application sur le serveur
 
 Mise à jour et installation des libraires de base
 sudo apt-get update
