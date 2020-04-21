@@ -18,6 +18,7 @@ Utilisateur ajouté dans le groupe des super utilisateurs:
     gpasswd -a helene sudo
 
 Ajout de la clé ssh pour le user helene:
+
     su – helene
     mkdir .ssh
     chmod 700 .ssh
