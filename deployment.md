@@ -9,9 +9,12 @@ Création d'un droplet :
 * Firewall : accès en SSH et par http/https uniquement
 
 Création d'un nouvel utilisateur helene: 
+
 adduser helene
 
+
 Utilisateur ajouté dans le groupe des super utilisateurs:
+
 gpasswd -a helene sudo
 
 Ajout de la clé ssh pour le user helene:
