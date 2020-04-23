@@ -179,7 +179,8 @@ Relancer le processus supervisor :
 Création de deux fichiers :
 * local_settings.py : pour la config globale et locale 
 * production.py : avec les spécificité de la config de production
-fichier:
+
+Détail du fichier:
 
     from .local_settings import *
     
