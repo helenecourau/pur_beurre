@@ -24,7 +24,7 @@ Ajout de la clé ssh pour le user helene:
     chmod 700 .ssh
     nano .ssh/authorized_keys
     chmod 600 .ssh/authorized_keys
-    logout
+    exit
 
 Désactivation de la connexion ssh au root:
 
@@ -95,11 +95,16 @@ Installer nginx:
 
 Création d'un fichier de configuration Nginx:
 
+    cd /etc/nginx/
     sudo touch sites-available/pur_beurre
 
 Ajout du lien symbolique pour la prise en compte du fichier de configuration:
 
     sudo ln -s /etc/nginx/sites-available/pur_beurre /etc/nginx/sites-enabled
+
+Edition du fichier de configuration :
+
+    sudo nano sites-available/pur_beurre
 
 Contenu du fichier de configuration :
 
@@ -122,6 +127,7 @@ Contenu du fichier de configuration :
             }
         }
     }
+
 settings.py: 
 
     ALLOWED_HOSTS = ['142.93.109.41']
@@ -139,7 +145,8 @@ Lancer le processus de serveur de Gunicorn:
 ## Supervisor 
 
 Création un fichier de configuration supervisor
-
+    
+    sudo apt-get install supervisor
     sudo nano /etc/supervisor/conf.d/pur_beurre-gunicorn.conf
 
 La commande à exécuter pour démarrer Gunicorn:
@@ -158,9 +165,44 @@ Fichier de configuration:
 
 Relancer le processus supervisor :
 
-    supervisorctl reread
+    sudo supervisorctl reread
     sudo supervisorctl update
     sudo supervisorctl status
+
+## Séparation des environnements
+
+Création de deux fichiers :
+* local_settings.py : pour la config globale et locale 
+* production.py : avec les spécificité de la config de production
+fichier:
+
+    from .local_settings import *
+    
+    DEBUG = False
+    ALLOWED_HOSTS = ['142.93.109.41']
+
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'pur_beurre',
+            'USER': 'helene',
+            'PASSWORD': 'Pbrr_2020hcpg',
+            'HOST': '',
+            'PORT': '5432',
+        }
+    }
+
+Suppression de settings.py
+
+Relancer le processus supervisor :
+
+    sudo supervisorctl reread
+    sudo supervisorctl update
+    sudo supervisorctl status
+    
+Si besoin pendant la configuration:
+
+    sudo supervisorctl restart pur_beurre-gunicorn
 
 ## Monitoring du serveur
 
@@ -200,3 +242,10 @@ Dans le fichier wsgi.py :
 
     import newrelic.agent
     newrelic.agent.initialize('/home/helene/newrelic.ini')
+    
+## Tâche cron
+
+La tâche cron lance le fichier main.py qui va récupérer les aliments d'OpenFoodFact grâce au fichier resquest_class puis les insérer ou les mettre à jour avec insert_class.
+
+    crontab -e
+    00 23 * * 6 /home/helene/env/bin/python /home/helene/pur_beurre/main.py > /home/helene/log.txt 2>&1
