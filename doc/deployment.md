@@ -2,6 +2,8 @@
 
 ## Configuration de l'espace serveur
 
+![serveur](https://github.com/helenecourau/pur_beurre/blob/master/doc/img/serveur2.png)
+
 Création d'un droplet :
 * Image Ubuntu
 * Datacenter à Francfort
@@ -34,6 +36,9 @@ Dans le fichier on passe la variable PermitRootLogin à no
 On relance:
 
     service ssh reload
+
+
+![serveur](https://github.com/helenecourau/pur_beurre/blob/master/doc/img/serveur.png)
 
 ## Téléchargement de l'application sur le serveur
 
@@ -206,6 +211,8 @@ Si besoin pendant la configuration:
 
 ## Monitoring du serveur
 
+![serveur](https://github.com/helenecourau/pur_beurre/blob/master/doc/img/sentry.png)
+
 New Relic et Digital Ocean pour monitorer le serveur et Sentry pour monitorer Django
 
 DigitalOcean:
@@ -235,6 +242,8 @@ Relancer Gunicorn:
 
 ## NewRelic
 
+![serveur](https://github.com/helenecourau/pur_beurre/blob/master/doc/img/newrelic.png)
+
     pip install newrelic
     newrelic-admin generate-config <your-key-goes-here> newrelic.ini
 
@@ -244,6 +253,8 @@ Dans le fichier wsgi.py :
     newrelic.agent.initialize('/home/helene/newrelic.ini')
     
 ## Tâche cron
+
+![serveur](https://github.com/helenecourau/pur_beurre/blob/master/doc/img/cron.png)
 
 La tâche cron lance le fichier main.py qui va récupérer les aliments d'OpenFoodFact grâce au fichier resquest_class puis les insérer ou les mettre à jour avec insert_class.
 
