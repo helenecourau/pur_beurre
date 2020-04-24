@@ -94,6 +94,8 @@ Migration des données:
 
 ## Installation et configuration d'Nginx
 
+Mise en place du serveur web Nginx pour redirige rles requêtes effectuées sur l'IP publique à l'IP privée. 
+
 Installer nginx:
 
     sudo apt-get install nginx
@@ -143,11 +145,15 @@ Relance de Nginx:
 
 ## Gunicorn
 
+Gunicorn est un serveur http Python pour Unix qui nous permet d'interpréter Django et qui gère le lancement du serveur.
+
 Lancer le processus de serveur de Gunicorn:
 
     gunicorn pur_beurre.wsgi:application
 
 ## Supervisor 
+
+Supervisor permet de lancer ou relancer des services.
 
 Création un fichier de configuration supervisor
     
@@ -192,7 +198,7 @@ Détail du fichier:
             'ENGINE': 'django.db.backends.postgresql',
             'NAME': 'pur_beurre',
             'USER': 'helene',
-            'PASSWORD': 'Pbrr_2020hcpg',
+            'PASSWORD': 'mdp',
             'HOST': '',
             'PORT': '5432',
         }
@@ -210,19 +216,33 @@ Si besoin pendant la configuration:
 
     sudo supervisorctl restart pur_beurre-gunicorn
 
-## Monitoring du serveur
+## Monitoring
 
 ![serveur](https://github.com/helenecourau/pur_beurre/blob/master/doc/img/sentry.png)
 
 New Relic et Digital Ocean pour monitorer le serveur et Sentry pour monitorer Django
 
-DigitalOcean:
+### DigitalOcean:
+
+J'ai activé des alertes pour surveiller le CPU, l'utilisation de la mémoire vive et de l'espace disque
 
     sudo apt-get purge do-agent
     curl -sSL https://repos.insights.digitalocean.com/install.sh | sudo bash
     /opt/digitalocean/bin/do-agent –version
 
-Sentry:
+### NewRelic
+
+![serveur](https://github.com/helenecourau/pur_beurre/blob/master/doc/img/newrelic.png)
+
+    pip install newrelic
+    newrelic-admin generate-config <your-key-goes-here> newrelic.ini
+
+Dans le fichier wsgi.py :
+
+    import newrelic.agent
+    newrelic.agent.initialize('/home/helene/newrelic.ini')
+
+### Sentry:
 
     pip install --upgrade 'sentry-sdk==0.14.3'
     import sentry_sdk
@@ -240,19 +260,31 @@ Tester en faisant une erreur dans le code.
 Relancer Gunicorn:
 
     sudo supervisorctl restart pur_beurre-gunicorn
-
-## NewRelic
-
-![serveur](https://github.com/helenecourau/pur_beurre/blob/master/doc/img/newrelic.png)
-
-    pip install newrelic
-    newrelic-admin generate-config <your-key-goes-here> newrelic.ini
-
-Dans le fichier wsgi.py :
-
-    import newrelic.agent
-    newrelic.agent.initialize('/home/helene/newrelic.ini')
     
+    
+## Travis
+
+Travis permet de lancer les tests automatiquement lorsque'on push le code sur Github.
+
+Fichier de configuration .travis.yml
+
+    language: python
+    python:
+      - "3.7"
+    install:
+      - pip install -r requirements.txt
+    branches:
+      only:
+        - master
+    env:
+      - DJANGO_VERSION=2.0
+    services:
+      - postgresql
+    script:
+      - python -m pytest
+      - python manage.py test
+
+
 ## Tâche cron
 
 ![serveur](https://github.com/helenecourau/pur_beurre/blob/master/doc/img/cron.png)
