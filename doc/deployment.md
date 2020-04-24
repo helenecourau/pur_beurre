@@ -48,9 +48,9 @@ Mise à jour et installation des librairies de base:
     sudo apt-get update
     sudo apt-get install python3-pip python3-dev libpq-dev postgresql postgresql-contrib
 
-Récupérer l'application depuis git: 
+Récupérer l'application depuis Github: 
 
-    git clone url.git
+    git clone https://github.com/helenecourau/pur_beurre.git
 
 Création de l'environnement virtuel et installation des dépendances: 
 
@@ -95,7 +95,7 @@ Migration des données:
 
 ## Installation et configuration de Nginx
 
-Mise en place du serveur web Nginx pour redirige rles requêtes effectuées sur l'IP publique à l'IP privée. 
+Mise en place du serveur web Nginx pour rediriger les requêtes effectuées sur l'IP publique à l'IP privée. 
 
 Installer Nginx :
 
