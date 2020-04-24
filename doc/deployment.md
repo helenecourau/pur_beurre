@@ -1,4 +1,4 @@
-### Étapes de la mise en ligne
+# Étapes de la mise en ligne
 
 ## Configuration de l'espace serveur
 
