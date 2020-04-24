@@ -32,7 +32,8 @@ Désactivation de la connexion ssh au root:
 
     nano /etc/ssh/sshd_config
 
-Dans le fichier on passe la variable PermitRootLogin à no
+Dans le fichier on passe la variable PermitRootLogin à no.
+
 On relance:
 
     service ssh reload
@@ -92,15 +93,15 @@ Migration des données:
     python3 manage.py loaddata website/dumps/pur_beurre.json
     python3 manage.py createsuperuser
 
-## Installation et configuration d'Nginx
+## Installation et configuration de Nginx
 
 Mise en place du serveur web Nginx pour redirige rles requêtes effectuées sur l'IP publique à l'IP privée. 
 
-Installer nginx:
+Installer Nginx :
 
     sudo apt-get install nginx
 
-Création d'un fichier de configuration Nginx:
+Création d'un fichier de configuration Nginx :
 
     cd /etc/nginx/
     sudo touch sites-available/pur_beurre
@@ -135,11 +136,11 @@ Contenu du fichier de configuration :
         }
     }
 
-settings.py: 
+Modification du fichier settings.py : 
 
     ALLOWED_HOSTS = ['142.93.109.41']
 
-Relance de Nginx:
+Relance de Nginx :
 
     sudo service nginx reload
 
@@ -160,11 +161,11 @@ Création un fichier de configuration supervisor
     sudo apt-get install supervisor
     sudo nano /etc/supervisor/conf.d/pur_beurre-gunicorn.conf
 
-La commande à exécuter pour démarrer Gunicorn:
+La commande à exécuter pour démarrer Gunicorn :
 
     command=/home/helene/env/bin/gunicorn pur_beurre.wsgi:application
 
-Fichier de configuration:
+Fichier de configuration :
 
     [program:pur_beurre-gunicorn]
     command=/home/helene/env/bin/gunicorn pur_beurre.wsgi:application
@@ -183,8 +184,8 @@ Relancer le processus supervisor :
 ## Séparation des environnements
 
 Création de deux fichiers :
-* local_settings.py : pour la config globale et locale 
-* production.py : avec les spécificité de la config de production
+* local_settings.py : pour la configuration générale et locale.
+* production.py : avec les spécificités de la configuration de production.
 
 Détail du fichier:
 
@@ -212,10 +213,7 @@ Relancer le processus supervisor :
     sudo supervisorctl update
     sudo supervisorctl status
     
-Si besoin pendant la configuration:
-
-    sudo supervisorctl restart pur_beurre-gunicorn
-
+    
 ## Monitoring
 
 ![serveur](https://github.com/helenecourau/pur_beurre/blob/master/doc/img/sentry.png)
@@ -224,7 +222,7 @@ New Relic et Digital Ocean pour monitorer le serveur et Sentry pour monitorer Dj
 
 ### DigitalOcean:
 
-J'ai activé des alertes pour surveiller le CPU, l'utilisation de la mémoire vive et de l'espace disque
+J'ai activé des alertes pour surveiller le CPU, l'utilisation de la mémoire vive et de l'espace disque.
 
     sudo apt-get purge do-agent
     curl -sSL https://repos.insights.digitalocean.com/install.sh | sudo bash
@@ -264,7 +262,7 @@ Relancer Gunicorn:
     
 ## Travis
 
-Travis permet de lancer les tests automatiquement lorsque'on push le code sur Github.
+Travis permet de lancer les tests automatiquement lorsqu'on push le code sur Github.
 
 Fichier de configuration .travis.yml
 
