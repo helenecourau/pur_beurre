@@ -15,6 +15,13 @@
 	            <div class="col-lg-10 align-self-end">
 	                <h1 class="text-uppercase text-white font-weight-bold">Mon compte</h1>
 	            </div>
+	            {% if messages %}
+					<ul class="messages">
+						{% for message in messages %}
+							<p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</>
+						{% endfor %}
+					</ul>
+				{% endif %}
 
 				{% if error %}
 				<h3><strong><a href="connexion">Connectez-vous pour accéder à votre compte </a></strong></h3> 
@@ -22,15 +29,16 @@
 				{% endif %}
 
 				{% if user.is_authenticated %}
-				<div>
+				<div class="col-lg-10 align-self-end">
 					<p><strong>Bonjour {{ user.first_name }} !</strong></p>
 					<p><strong>{{ user.email }}</strong></p>
 				</div>
+				<form action="{% url 'account' %}" method="post" class="col-lg-10 align-self-end">
+					{% csrf_token %}
+					<input id="user_id" type="hidden" name="user_id" value="{{ user.id }}">
+				  	<input type="submit" value="Supprimer mon compte" id="delete" class="btn btn-primary btn-search" />
+				</form>
 				{% else %}
-				<div>
-					<h3><strong><a href="connexion">Connectez-vous pour accéder à votre compte </a></strong></h3> 
-					<h3><strong><a href="creer-compte">ou créez votre compte !</a></strong></h3>
-				</div>
 				{% endif %}
 	        </div>
 	    </div>

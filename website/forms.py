@@ -27,3 +27,7 @@ class ConnexionForm(forms.Form):
 
 class SaveForm(forms.Form):
     article_id = forms.IntegerField(label="id")
+
+
+class DeleteAccount(forms.Form):
+    user_id = forms.IntegerField(label="id")
