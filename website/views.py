@@ -134,5 +134,12 @@ def deconnexion(request):
 def account(request):
     if not request.user.is_authenticated:
         return redirect('connexion')
+    if request.method == 'POST':
+        user_id = request.user.id
+        user = User.objects.get(pk=user_id)
+        Product.objects.filter(fav=user_id).all().delete()
+        user.delete()
+        logout(request)
+        return redirect('account')
 
     return render(request, 'website/account.html', locals())
