@@ -29,5 +29,9 @@ class SaveForm(forms.Form):
     article_id = forms.IntegerField(label="id")
 
 
+class DeleteFav(forms.Form):
+    product_id = forms.IntegerField(label="id")
+
+
 class DeleteAccount(forms.Form):
     user_id = forms.IntegerField(label="id")

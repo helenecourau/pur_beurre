@@ -5,7 +5,7 @@ from django.urls import reverse
 from django.core.paginator import Paginator, EmptyPage
 from django.contrib import messages
 
-from .forms import AccountForm, ConnexionForm, SaveForm
+from .forms import AccountForm, ConnexionForm, SaveForm, DeleteFav
 from website.models import Product
 
 
@@ -55,6 +55,13 @@ def my_products(request, page=1):
             my_products = paginator.page(page)
         except EmptyPage:
             my_products = paginator.page(paginator.num_pages)
+        if request.method == 'POST':
+            form = DeleteFav(request.POST or None)
+            if form.is_valid():
+                product_id = form.cleaned_data['product_id']
+                Product.objects.get(pk=product_id).fav.remove(user_id)
+                messages.add_message(request, messages.SUCCESS,
+                                     'Le produit a bien été supprimé!')
 
     return render(request, 'website/my_products.html', locals())
 
@@ -137,9 +144,11 @@ def account(request):
     if request.method == 'POST':
         user_id = request.user.id
         user = User.objects.get(pk=user_id)
-        Product.objects.filter(fav=user_id).all().delete()
+        product_list = Product.objects.filter(fav=user_id)
+        for product in product_list:
+            product.fav.remove(user_id)
         user.delete()
         logout(request)
-        return redirect('account')
+        return redirect('connexion')
 
     return render(request, 'website/account.html', locals())

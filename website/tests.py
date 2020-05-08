@@ -1,7 +1,7 @@
 from django.test import TestCase, Client
 from django.urls import reverse
 from django.contrib.auth.models import User
-from website.models import Category, Product
+from website.models import Product
 
 
 class HomePageTestCase(TestCase):
@@ -41,6 +41,16 @@ class MyProductsPageTestCase(TestCase):
         User.objects.create_user('helene',
                                  'helene@test.com', 'helenecouraupwd')
 
+        Product.objects.create(name_prod="chocolat",
+                               description="du très bon chocolat",
+                               grade="A",
+                               url="https://url.com/",
+                               url_img="https://url_img.com/",
+                               slug="chocolat-21")
+        product = Product.objects.get(name_prod="chocolat")
+        user = User.objects.get(username='helene')
+        product.fav.add(user)
+
     def test_favorite_page_returns_200_if_connected(self):
         c = Client()
         response = c.post('/connexion',
@@ -53,6 +63,16 @@ class MyProductsPageTestCase(TestCase):
         c = Client()
         response = c.get('/mes-aliments/')
         self.assertEqual(response.status_code, 302)
+
+    def test_delete_fav(self):
+        c = Client()
+        c.post('/connexion',
+               {'username': 'helene',
+                'password': 'helenecouraupwd'})
+        product = Product.objects.get(name_prod="chocolat")
+        user = User.objects.get(username='helene')
+        c.post('/mes-aliments/', {'product_id': product.id})
+        self.assertFalse(Product.objects.filter(fav__id=user.id).exists())
 
 
 class ProductPageTestCase(TestCase):
@@ -166,6 +186,15 @@ class AccountPageTestCase(TestCase):
         User.objects.create_user('helene',
                                  'helene@test.com',
                                  'helenecouraupwd')
+        Product.objects.create(name_prod="chocolat",
+                               description="du très bon chocolat",
+                               grade="A",
+                               url="https://url.com/",
+                               url_img="https://url_img.com/",
+                               slug="chocolat-21")
+        product = Product.objects.get(name_prod="chocolat")
+        user = User.objects.get(username='helene')
+        product.fav.add(user)
 
     def test_account_page_if_connected(self):
         c = Client()
@@ -178,3 +207,21 @@ class AccountPageTestCase(TestCase):
     def test_account_page_if_not_connected(self):
         response = self.client.get(reverse('account'))
         self.assertEqual(response.status_code, 302)
+
+    def test_delete_account(self):
+        c = Client()
+        user = User.objects.get(username='helene')
+        c.post('/connexion',
+               {'username': 'helene',
+                'password': 'helenecouraupwd'})
+        c.post('/mon-compte', {'id': user.id})
+        self.assertFalse(User.objects.filter(pk=3).exists())
+
+    def test_delete_fav(self):
+        c = Client()
+        user = User.objects.get(username='helene')
+        c.post('/connexion',
+               {'username': 'helene',
+                'password': 'helenecouraupwd'})
+        c.post('/mon-compte', {'id': user.id})
+        self.assertFalse(Product.objects.filter(fav__id=user.id).exists())
