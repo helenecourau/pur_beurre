@@ -8,9 +8,9 @@
 		display: flex;
 	}
 	#product img{
-		max-height: 80px;
+		max-height: 70px;
 		max-width: 120px;
-		min-height: 80px;
+		min-height: 70px;
 		margin-right: 2%
 	}
 	#img_grade{
@@ -23,6 +23,11 @@
 		width: 5%;
 		height: 5%;
 		padding-left: 7px;
+	}
+	#product_id{
+		border-radius: 200px;
+		border-color: #fff;
+		border: 1px solid transparent;
 	}
 	.current{
 		color: #fff;
@@ -73,7 +78,7 @@
 								<form action="?query={{ query }}&amp;page={{ my_products.number }}" method="post">
 									{% csrf_token %}
 									<input id="product_id" type="hidden" name="product_id" value="{{ product.id }}">
-								  	<input type="submit" value="Supprimer" id="delete" class="btn btn-dark" />
+								  	<input id="product_id" type="submit" value="Supprimer" id="delete" />
 								</form>
 							</div>
 							{% if forloop.counter|divisibleby:3 %}<div class="clearfix"></div>{% endif %}
