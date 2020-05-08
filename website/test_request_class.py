@@ -1,7 +1,7 @@
 import pytest
 import requests
 
-import request_class as script
+from . import request_class as script
 
 given_data = {'products':
               [{'product_name': 'Coca-cola',

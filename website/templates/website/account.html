@@ -15,7 +15,7 @@
 	            <div class="col-lg-10 align-self-end">
 	                <h1 class="text-uppercase text-white font-weight-bold">Mon compte</h1>
                     </div>
-	            <div class="col-lg-10">
+	            <div >
 	                {% if messages %}
 					<ul class="messages">
 						{% for message in messages %}
@@ -29,10 +29,10 @@
 				{% endif %}
 
 				{% if user.is_authenticated %}
-				<div class="col-lg-10 align-self-end">
+				
 					<p><strong>Bonjour {{ user.first_name }} !</strong></p>
 					<p><strong>{{ user.email }}</strong></p>
-				</div>
+				
 				<form action="{% url 'account' %}" method="post" class="col-lg-10 align-self-end">
 					{% csrf_token %}
 					<input id="user_id" type="hidden" name="user_id" value="{{ user.id }}">
