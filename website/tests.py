@@ -38,6 +38,8 @@ class SearchPageTestCase(TestCase):
 
 class MyProductsPageTestCase(TestCase):
     def setUp(self):
+        User.objects.all().delete()
+        Product.objects.all().delete()
         User.objects.create_user('helene',
                                  'helene@test.com', 'helenecouraupwd')
 
@@ -183,6 +185,7 @@ class CreateAccountPageTestCase(TestCase):
 class AccountPageTestCase(TestCase):
     def setUp(self):
         User.objects.all().delete()
+        Product.objects.all().delete()
         User.objects.create_user('helene',
                                  'helene@test.com',
                                  'helenecouraupwd')
