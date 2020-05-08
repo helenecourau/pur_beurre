@@ -12,4 +12,4 @@ services:
   - postgresql
 script:
   - python -m pytest
-  - python manage.py test
+  - python manage.py test website.tests
