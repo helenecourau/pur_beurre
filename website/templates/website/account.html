@@ -14,15 +14,15 @@
 	        <div class="row h-100 align-items-center justify-content-center text-center">
 	            <div class="col-lg-10 align-self-end">
 	                <h1 class="text-uppercase text-white font-weight-bold">Mon compte</h1>
-	            </div>
-	            {% if messages %}
+                    </div>
+	            <div class="col-lg-10">
+	                {% if messages %}
 					<ul class="messages">
 						{% for message in messages %}
 							<p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</>
 						{% endfor %}
 					</ul>
 				{% endif %}
-
 				{% if error %}
 				<h3><strong><a href="connexion">Connectez-vous pour accéder à votre compte </a></strong></h3> 
 				<h3><strong><a href="creer-compte">ou créez votre compte !</a></strong></h3>
@@ -41,7 +41,6 @@
 				{% else %}
 				{% endif %}
 	        </div>
-	    </div>
 	  </header>
 
 {% endblock %}
