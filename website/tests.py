@@ -20,7 +20,7 @@ class ResultPageTestCase(TestCase):
     def test_result_page_error(self):
         c = Client()
         response = c.get('/resultats/', {'query': 'haribo'})
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 300)
 
 
 class SearchPageTestCase(TestCase):
