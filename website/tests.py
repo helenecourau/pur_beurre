@@ -1,16 +1,34 @@
 from django.test import TestCase, Client
 from django.urls import reverse
 from django.contrib.auth.models import User
-from website.models import Product
+from website.models import Product, Category
 
 
 class HomePageTestCase(TestCase):
+    
     def test_home_page(self):
         response = self.client.get(reverse('home'))
         self.assertEqual(response.status_code, 200)
 
 
 class ResultPageTestCase(TestCase):
+    
+    def setUp(self):
+        product = Product.objects.create(name_prod="chocolat",
+                                         description="du très bon chocolat",
+                                         grade="a",
+                                         url="https://url.com/",
+                                         url_img="https://url_img.com/",
+                                         slug="chocolat-21")
+        sub_product = Product.objects.create(name_prod="gâteau",
+                                             description="un très bon biscuit",
+                                             grade="b",
+                                             url="https://url2.com/",
+                                             url_img="https://url_img2.com/",
+                                             slug="biscuit-21")
+        category = Category.objects.create(name_cat="dessert")
+        product.categories.add(category)
+        sub_product.categories.add(category)
 
     def test_result_page(self):
         c = Client()
@@ -20,7 +38,14 @@ class ResultPageTestCase(TestCase):
     def test_result_page_error(self):
         c = Client()
         response = c.get('/resultats/', {'query': 'haribo'})
-        self.assertEqual(response.status_code, 300)
+        self.assertEqual(response.status_code, 200)
+
+    def test_get_result(self):
+        c = Client()
+        response = c.get('/resultats/', {'query': 'chocolat'})
+        sub_product = Product.objects.get(name_prod="gâteau")
+        substitutes_list = response.context['substitutes_list']
+        self.assertTrue(sub_product in substitutes_list)
 
 
 class SearchPageTestCase(TestCase):
@@ -37,20 +62,18 @@ class SearchPageTestCase(TestCase):
 
 
 class MyProductsPageTestCase(TestCase):
+    
     def setUp(self):
         User.objects.all().delete()
         Product.objects.all().delete()
-        User.objects.create_user('helene',
+        user = User.objects.create_user('helene',
                                  'helene@test.com', 'helenecouraupwd')
-
-        Product.objects.create(name_prod="chocolat",
+        product = Product.objects.create(name_prod="chocolat",
                                description="du très bon chocolat",
                                grade="A",
                                url="https://url.com/",
                                url_img="https://url_img.com/",
                                slug="chocolat-21")
-        product = Product.objects.get(name_prod="chocolat")
-        user = User.objects.get(username='helene')
         product.fav.add(user)
 
     def test_favorite_page_returns_200_if_connected(self):
@@ -78,7 +101,9 @@ class MyProductsPageTestCase(TestCase):
 
 
 class ProductPageTestCase(TestCase):
+    
     def setUp(self):
+        Product.objects.all().delete()
         Product.objects.create(name_prod="chocolat",
                                description="du très bon chocolat",
                                grade="A",
@@ -186,17 +211,15 @@ class AccountPageTestCase(TestCase):
     def setUp(self):
         User.objects.all().delete()
         Product.objects.all().delete()
-        User.objects.create_user('helene',
+        user = User.objects.create_user('helene',
                                  'helene@test.com',
                                  'helenecouraupwd')
-        Product.objects.create(name_prod="chocolat",
+        product = Product.objects.create(name_prod="chocolat",
                                description="du très bon chocolat",
                                grade="A",
                                url="https://url.com/",
                                url_img="https://url_img.com/",
                                slug="chocolat-21")
-        product = Product.objects.get(name_prod="chocolat")
-        user = User.objects.get(username='helene')
         product.fav.add(user)
 
     def test_account_page_if_connected(self):
