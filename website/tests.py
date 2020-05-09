@@ -97,7 +97,7 @@ class MyProductsPageTestCase(TestCase):
         product = Product.objects.get(name_prod="chocolat")
         user = User.objects.get(username='helene')
         c.post('/mes-aliments/', {'product_id': product.id})
-        self.assertFalse(Product.objects.filter(fav__id=user.id).exists())
+        self.assertFalse(Product.objects.filter(name_prod = product.name_prod, fav__id=user.id).exists())
 
 
 class ProductPageTestCase(TestCase):
